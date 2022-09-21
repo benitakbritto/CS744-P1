@@ -34,7 +34,7 @@ for _ in range(10):
     join(neighbours).\
     flatMap(lambda row: [(node, row[1][0]/len(row[1][1])) for node in row[1][1]]).\
     reduceByKey(add).\
-    .map(lambda row: (row[0], 0.15 + 0.85*row[1]))
+    map(lambda row: (row[0], 0.15 + 0.85*row[1]))
 
 ranks.toDF(["Node", "Rank"]).show(50)
 
