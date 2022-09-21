@@ -1,4 +1,6 @@
 from pyspark.sql import SparkSession
+from operator import add
+
 
 NUMBER_NODES = 685230
 
@@ -17,10 +19,24 @@ rdd = rdd.filter(lambda line: '#' not in line)
 rdd = rdd.map(lambda line: line.split('\t'))
 
 # Peek the RDD
-rdd.toDF(["From", "To"]).show()
+#rdd.toDF(["From", "To"]).show()
 
 neighbours = rdd.groupByKey().mapValues(list)
 
-neighbours.toDF(["Node", "Neighbours"]).show()
+# Peek the neighbour list
+#neighbours.toDF(["Node", "Neighbours"]).show()
+
+# Create the rank map
+ranks = neighbours.mapValues(lambda x: 1.0)
+#ranks.toDF(["Node", "Rank"]).show()
+for _ in range(10):
+    contributions = ranks.\
+    join(neighbours).\
+    flatMap(lambda row: [(node, row[1][0]/len(row[1][1])) for node in row[1][1]])
+    contributions = contributions.reduceByKey(add)
+    ranks = contributions.map(lambda row: (row[0], 0.15 + 0.85*row[1]))
+
+ranks.toDF(["Node", "Rank"]).show(50)
+
 
 spark.stop()
