@@ -1,7 +1,7 @@
 # CS744
 
 ### Commands
-Connection Setup
+Connection Setup  
 0. `vim .ssh/config`
 1. Add ssh connection details as
 ```
@@ -18,5 +18,5 @@ Host *
 3. `ssh <host>`
 4. `sudo su`
 
-To list all the running java processes
+To list all the running java processes  
 `jsp`
