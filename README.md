@@ -2,8 +2,8 @@
 
 ### Commands
 Connection Setup  
-0. `vim .ssh/config`
-1. Add ssh connection details as
+1. `vim .ssh/config`
+2. Add ssh connection details as
 
 ```
 Host <host>
@@ -16,9 +16,9 @@ Host *
     IdentityFile  <path to private key>
 ```
 
-2. `bash`
-3. `ssh <host>`
-4. `sudo su`
+3. `bash`
+4. `ssh <host>`
+5. `sudo su`
 
 To list all the running java processes  
 `jsp`
