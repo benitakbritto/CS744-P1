@@ -10,7 +10,8 @@ spark.sparkContext.setLogLevel("ERROR")
 # Load RDD into Spark
 #rdd = spark.sparkContext.textFile("hdfs://10.10.1.1:9000/part2/datasets/web-BerkStan.txt")
 
-rdd = spark.sparkContext.\
+rdd = spark.\
+    sparkContext.\
     textFile("hdfs://10.10.1.1:9000/part2/datasets/enwiki-pages-articles/link-enwiki-*")
 
 # Cleaning up the data
