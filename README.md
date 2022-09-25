@@ -1,4 +1,4 @@
-# CS744
+# CS744-P1
 
 Project Description can be found [here](https://pages.cs.wisc.edu/~shivaram/cs744-fa22/assignment1.html)
 
@@ -42,4 +42,4 @@ To run part 2:
 ## Part 3
 To run part 3:
 1. `sudo su`
-2. `spark-submit --master spark://10.10.1.1:7077 part1/pagerank.py`
+2. `spark-submit --master spark://10.10.1.1:7077 part2/pagerank.py`
