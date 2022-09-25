@@ -23,13 +23,23 @@ Host *
 5. `sudo su`
 
 To list all the running java processes  
-`jsp`
+`jps`
+
+To view currently running Spark job(s):
+1. `ssh -L 4040:10.10.1.1:4040 <user>@<host>`
+2. On a browser, go to URL `localhost:4040`
+
+To view job(s) history on the Spark History Server:
+1. `ssh -L 18080:10.10.1.1:18080 <user>@<host>`
+2. On a browser, go to URL `localhost:18080`
 
 ## Part 2
 To run part 2:
-<TODO>
+1. `sudo su`
+2. `spark-submit --master spark://10.10.1.1:7077 part1/sort.py`
 
 
 ## Part 3
 To run part 3:
-<TODO>
+1. `sudo su`
+2. `spark-submit --master spark://10.10.1.1:7077 part1/pagerank.py`
