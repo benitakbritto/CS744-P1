@@ -51,12 +51,14 @@ neighbours = rdd.groupByKey().mapValues(list)
 
 # If the flag is set, partition into user provided number.
 if args.partitions:
+    print(f"Partitioning neighbours RDD into {args.partitions} partitions")
     neighbours = neighbours.partitionBy(args.partitions)
 
 print(f"Number of partitions in neighbours RDD: {neighbours.getNumPartitions()}")
 
 # If the flag is set, persist the neighbour RDD into memory or disk.
 if args.persist:
+    print(f"Persisting neighbours RDD with {args.persist} mode")
     if args.persist == "Disk_Only":
         neighbours = neighbours.persist(StorageLevel.DISK_ONLY)
     elif args.persist == "Memory_Only":
@@ -85,7 +87,7 @@ for _ in range(args.iterations):
 
     # Weight the contributions towards each node and assign new ranks
     # RDD schema: (destinationNode, newRank)
-    ranks = contributionsRDD.map(lambda row: (row[0], 0.15 + 0.85*row[1]))
+    ranks = contributionsRDD.mapValues(lambda row: 0.15 + 0.85*row[1])
 
 # Write back RDD to HDFS
 ranks.\
