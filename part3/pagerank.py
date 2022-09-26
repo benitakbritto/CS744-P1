@@ -74,12 +74,8 @@ if args.persist:
 # Create the rank RDD -> (key, rank)
 ranks = neighbours.mapValues(lambda x: 1.0)
 
-get_statistics(neighbours)
-
-get_statistics(ranks)
-
 # Execute 'num_iterations' iterations of the PageRank algorithm
-for _ in range(NUM_ITERATIONS):
+for _ in range(args.iterations):
     # Join the ranks, neighbours 
     # RDD schema: (sourceNode, (rank, list[destinationNodes]))
     # Note: Constrainning the output number of joins slights increases performace
