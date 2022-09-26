@@ -25,6 +25,10 @@ Host *
 To list all the running java processes  
 `jps`
 
+To view current status of the HDFS cluster:
+1. `ssh -L 9870:10.10.1.1:9870 <user>@<host>`
+2. On a browser, go to URL `localhost:9870/dfshealth.html`
+
 To view currently running Spark job(s):
 1. `ssh -L 4040:10.10.1.1:4040 <user>@<host>`
 2. On a browser, go to URL `localhost:4040`

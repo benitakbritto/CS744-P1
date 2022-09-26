@@ -92,7 +92,6 @@ ranks.\
     toDF(["Node", "Rank"]).\
     write.\
     mode("overwrite").\
-    partitionBy("Node").\
     option("header", True).\
     csv(f"hdfs://10.10.1.1:9000/output/{APP_NAME}")
 
