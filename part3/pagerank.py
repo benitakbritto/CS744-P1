@@ -78,31 +78,31 @@ get_statistics(neighbours)
 
 get_statistics(ranks)
 
-# # Execute 'num_iterations' iterations of the PageRank algorithm
-# for _ in range(NUM_ITERATIONS):
-#     # Join the ranks, neighbours 
-#     # RDD schema: (sourceNode, (rank, list[destinationNodes]))
-#     # Note: Constrainning the output number of joins slights increases performace
-#     joinedRDD = neighbours.join(ranks, neighbours.getNumPartitions())
+# Execute 'num_iterations' iterations of the PageRank algorithm
+for _ in range(NUM_ITERATIONS):
+    # Join the ranks, neighbours 
+    # RDD schema: (sourceNode, (rank, list[destinationNodes]))
+    # Note: Constrainning the output number of joins slights increases performace
+    joinedRDD = neighbours.join(ranks, neighbours.getNumPartitions())
     
-#     # Project the contributions that a node will make towards destination nodes
-#     # RDD schema: (destinationNode, contributionFromSource)
-#     flatMapRDD = joinedRDD.flatMap(lambda row: [(node, row[1][1]/len(row[1][0])) for node in row[1][0]])
+    # Project the contributions that a node will make towards destination nodes
+    # RDD schema: (destinationNode, contributionFromSource)
+    flatMapRDD = joinedRDD.flatMap(lambda row: [(node, row[1][1]/len(row[1][0])) for node in row[1][0]])
 
-#     # Summing up all the contributions towards each node
-#     # RDD schema: (destinationNode, sumOfContributions)
-#     contributionsRDD = flatMapRDD.reduceByKey(add)
+    # Summing up all the contributions towards each node
+    # RDD schema: (destinationNode, sumOfContributions)
+    contributionsRDD = flatMapRDD.reduceByKey(add)
 
-#     # Weight the contributions towards each node and assign new ranks
-#     # RDD schema: (destinationNode, newRank)
-#     ranks = contributionsRDD.map(lambda row: (row[0], 0.15 + 0.85*row[1]))
+    # Weight the contributions towards each node and assign new ranks
+    # RDD schema: (destinationNode, newRank)
+    ranks = contributionsRDD.map(lambda row: (row[0], 0.15 + 0.85*row[1]))
 
-# # Write back RDD to HDFS
-# ranks.\
-#     toDF(["Node", "Rank"]).\
-#     write.\
-#     mode("overwrite").\
-#     option("header", True).\
-#     csv(f"hdfs://10.10.1.1:9000/output/{APP_NAME}")
+# Write back RDD to HDFS
+ranks.\
+    toDF(["Node", "Rank"]).\
+    write.\
+    mode("overwrite").\
+    option("header", True).\
+    csv(f"hdfs://10.10.1.1:9000/output/{APP_NAME}")
 
 spark.stop()
