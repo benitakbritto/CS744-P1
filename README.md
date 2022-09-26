@@ -36,10 +36,10 @@ To view job(s) history on the Spark History Server:
 ## Part 2
 To run part 2:
 1. `sudo su`
-2. `spark-submit --master spark://10.10.1.1:7077 part1/sort.py`
+2. `spark-submit --master spark://10.10.1.1:7077 part2/sort.py`
 
 
 ## Part 3
 To run part 3:
 1. `sudo su`
-2. `spark-submit --master spark://10.10.1.1:7077 part2/pagerank.py`
+2. `spark-submit --master spark://10.10.1.1:7077 part3/pagerank.py --iterations <num> --partitions <num> --persist <"Memory_Only"/"Disk_Only"/"Memory_And_Disk`
