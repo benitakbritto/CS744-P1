@@ -3,10 +3,6 @@ from pyspark import StorageLevel
 from operator import add
 import argparse
 
-# Default parameters set
-APP_NAME = "PageRank-WikiDataset"
-
-
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--iterations", type=int, default=10, help="The number of iterations to run PageRank algorithm.")
@@ -98,6 +94,7 @@ ranks.\
     toDF(["Node", "Rank"]).\
     write.\
     mode("overwrite").\
+    partitionBy("Node").\
     option("header", True).\
     csv(f"hdfs://10.10.1.1:9000/output/{APP_NAME}")
 
