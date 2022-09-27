@@ -15,7 +15,7 @@ num_iterations = 10
 # Load RDD into Spark
 rdd = spark.\
       sparkContext.\
-      textFile("hdfs://10.10.1.1:9000/part2/datasets/web-BerkStan.txt")
+      textFile("hdfs://10.10.1.1:9000/part3/web-BerkStan.txt")
 
 # Cleaning up the data, removing commented rows
 rdd = rdd.\
@@ -46,7 +46,7 @@ for _ in range(num_iterations):
 
     # Weight the contributions towards each node and assign new ranks
     # RDD schema: (destinationNode, newRank)
-    ranks = contributionsRDD.map(lambda row: (row[0], 0.15 + 0.85*row[1]))
+    ranks = contributionsRDD.mapValues(lambda x: 0.15 + 0.85*x)
 
 
 # Write back RDD to HDFS
