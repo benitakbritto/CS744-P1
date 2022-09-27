@@ -9,7 +9,7 @@ echo "${BLUE} Running script run.sh ${NOCOLOR}"
 
 # Part2: Sorting
 echo "${BLUE} Running Part2: Sorting ${NOCOLOR}"
-/users/hrpatel5/spark-3.3.0-bin-hadoop3/bin/spark-submit --master spark://10.10.1.1:7077 part2/sort.py --input hdfs://10.10.1.1:9000/part1/export.csv --output hdfs://10.10.1.1:9000/part1/sorted.csv
+/users/hrpatel5/spark-3.3.0-bin-hadoop3/bin/spark-submit --master spark://10.10.1.1:7077 part2/sort.py --input hdfs://10.10.1.1:9000/part2/export.csv --output hdfs://10.10.1.1:9000/output/sorted.csv
 echo "${BLUE} Completed Part2: Sorting ${NOCOLOR}" 
 echo "${BLUE} Removing output directory ${NOCOLOR}"
 /users/hrpatel5/hadoop-3.3.4/bin/hdfs dfs -rm -r -f /output/*
