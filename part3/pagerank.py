@@ -22,7 +22,7 @@ parser.add_argument(
     "--out_partitions",
     type=int, 
     default=None, 
-    help="The number of partitions for the PageRank shuffling."
+    help="The number of partitions for the output file."
 )
 parser.add_argument(
     "--persist", 

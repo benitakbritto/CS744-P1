@@ -46,4 +46,8 @@ To run part 2:
 ## Part 3
 To run part 3:
 1. `sudo su`
-2. `spark-submit --master spark://10.10.1.1:7077 part3/pagerank.py --iterations <num> --partitions <num> --persist <"Memory_Only"/"Disk_Only"/"Memory_And_Disk`
+2. `spark-submit --master spark://10.10.1.1:7077 part3/pagerank.py --iterations <num> --partitions <num> --persist <"Memory_Only"/"Memory_And_Disk" --out_partitions <num>`
+
+# Monitoring
+1. We use [Ganglia](http://ganglia.info/) for acquiring the CPU, Network I/O and Memory usage for each node in the cluster.
+2. For other metric wrt the job, we use Spark's History Server.
