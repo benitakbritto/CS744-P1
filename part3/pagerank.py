@@ -4,21 +4,35 @@ from operator import add
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--iterations", type=int, default=10, help="The number of iterations to run PageRank algorithm.")
-parser.add_argument("--partitions", type=int, default=None, help="The number of partitions for the PageRank shuffling.")
-parser.add_argument("--out_partitions", type=int, default=None, help="The number of partitions for the PageRank shuffling.")
-parser.add_argument
-    (
-       "--persist", 
-       type=str, 
-       choices=["Memory_Only", "Disk_Only", "Memory_And_Disk"], 
-       help="The persistence mode for PageRank algorithm."\
-       " Options are: Memory_Only, Disk_Only, Memory_And_Disk"
-    )
+parser.add_argument(
+    "--iterations", 
+    type=int, 
+    default=10, 
+    help="The number of iterations to run PageRank algorithm."
+)
+parser.add_argument(
+    "--partitions", 
+    type=int, 
+    default=None, 
+    help="The number of partitions for the PageRank shuffling."
+)
+parser.add_argument(
+    "--out_partitions",
+    type=int, 
+    default=None, 
+    help="The number of partitions for the PageRank shuffling."
+)
+parser.add_argument(
+    "--persist", 
+    type=str, 
+    choices=["Memory_Only", "Disk_Only", "Memory_And_Disk"], 
+    help="The persistence mode for PageRank algorithm."\
+    " Options are: Memory_Only, Disk_Only, Memory_And_Disk"
+)
 
 args = parser.parse_args()
 
-APP_NAME = f"PageRank-WikiDataset-{args.iterations}-{args.partitions}-{args.persist}"
+APP_NAME = f"PageRank-WikiDataset-{args.iterations}-{args.partitions}-{args.out_partitions}-{args.persist}"
 
 # Create Spark context
 spark = SparkSession.builder.appName(APP_NAME).getOrCreate()
@@ -99,6 +113,8 @@ for _ in range(args.iterations):
 # If output partitions are configured, partition again
 if args.out_partitions:
     ranks = ranks.coalesce(args.out_partitions)
+
+print(f"Number of partitions being written to disk: {ranks.getNumPartitions()}")
 
 # Write back RDD to HDFS
 ranks.\
