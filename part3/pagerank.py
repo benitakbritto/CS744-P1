@@ -60,12 +60,12 @@ print(f"Number of partitions in neighbours RDD: {neighbours.getNumPartitions()}"
 if args.persist:
     print(f"Persisting neighbours RDD with {args.persist} mode")
     if args.persist == "Disk_Only":
-        neighbours = neighbours.persist(StorageLevel.DISK_ONLY).collect()
+        neighbours = neighbours.cache()
     elif args.persist == "Memory_Only":
-        neighbours = neighbours.persist(StorageLevel.MEMORY_ONLY).collect()
+        neighbours = neighbours.cache()
     else:
         # Default to memory and disk
-        neighbours = neighbours.persist(StorageLevel.MEMORY_AND_DISK).collect()
+        neighbours = neighbours.persist(StorageLevel.MEMORY_AND_DISK)
 
 # Create the rank RDD -> (key, rank)
 ranks = neighbours.mapValues(lambda x: 1.0)
@@ -87,7 +87,7 @@ for _ in range(args.iterations):
 
     # Weight the contributions towards each node and assign new ranks
     # RDD schema: (destinationNode, newRank)
-    ranks = contributionsRDD.mapValues(lambda row: 0.15 + 0.85*row[1])
+    ranks = contributionsRDD.mapValues(lambda x: 0.15 + 0.85*x)
 
 # Write back RDD to HDFS
 ranks.\
