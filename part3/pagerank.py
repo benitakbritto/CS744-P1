@@ -58,6 +58,8 @@ def monitor(pid):
 
     process = psuitl.Process(pid)
 
+    print("Starting Monitoring Process for Spark Job")
+
     with open(f"/mnt/data/{APP_NAME}.csv" , 'w') as f:
         writer = csv.writer(f)
         title = ["CPU Util %", "Mem Usage"]
@@ -69,6 +71,9 @@ def monitor(pid):
 
             data = [process.cpu_percent(), process.virtual_memory().used]
             writer.writerow(data)
+
+            print("Logging data to file...")
+
             time.sleep(30)
 
 def run_spark():
@@ -154,13 +159,13 @@ def run_spark():
 if(__name__) == '__main__':
     # Start thread to record CPU and Mem usage
     monitoring_process = Process(target=monitor, args=(os.getpid(),))
-    monitoring_thread.start()
+    monitoring_process.start()
 
     # Actually invoke the Spark computation
     run_spark()
 
     # Stop the monitoring thread
     stop_monitoring = True
-    monitoring_thread.join()
+    monitoring_process.join()
 
 
