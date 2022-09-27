@@ -3,10 +3,6 @@ from pyspark import StorageLevel
 from multiprocessing import Process
 from operator import add
 import argparse
-import psutil
-import time
-import csv
-import os
 
 
 parser = argparse.ArgumentParser()
@@ -40,8 +36,6 @@ args = parser.parse_args()
 
 APP_NAME = f"PageRank-WikiDataset-{args.iterations}-{args.partitions}-{args.out_partitions}-{args.persist}"
 
-stop_monitoring = False
-
 def get_statistics(input_rdd):
     """
     Returns the statistics about each partition in 'input_rdd'.
@@ -54,33 +48,6 @@ def get_statistics(input_rdd):
     print(f"Mean number of elements in one partition: {sum(partitions)/len(partitions)}")
     print(f"Median number of elements in one partition: {sorted(partitions)[len(partitions)//2]}")
 
-def monitor(pid):
-    global stop_monitoring
-
-    process = psutil.Process(pid)
-
-    print(f"Starting Monitoring Process for Spark Job: {pid}")
-
-    f = open(f"/mnt/data/{APP_NAME}.csv" , 'w') 
-    writer = csv.writer(f)
-    title = ["CPU Util %", "Mem Usage"]
-    writer.writerow(title)
-    f.close()
-
-    while True:
-        if stop_monitoring:
-            break
-
-        data = [process.cpu_percent(), process.memory_info()[0]]
-
-        f = open(f"/mnt/data/{APP_NAME}.csv" , 'w')
-        writer = csv.writer(f)
-        writer.writerow(data)
-        f.close()
-
-        print(f"Logging monitoring data: {data} to file...")
-
-        time.sleep(30)
 
 def run_spark():
     # Create Spark context
@@ -163,15 +130,6 @@ def run_spark():
     spark.stop()
 
 if(__name__) == '__main__':
-    # Start thread to record CPU and Mem usage
-    monitoring_process = Process(target=monitor, args=(os.getpid(),))
-    monitoring_process.start()
-
     # Actually invoke the Spark computation
     run_spark()
-
-    # Stop the monitoring thread
-    stop_monitoring = True
-    monitoring_process.join()
-
 
