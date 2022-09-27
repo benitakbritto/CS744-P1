@@ -4,6 +4,7 @@ from multiprocessing import Process
 from operator import add
 import argparse
 import psutil
+import time
 import csv
 import os
 
