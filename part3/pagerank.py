@@ -61,21 +61,26 @@ def monitor(pid):
 
     print(f"Starting Monitoring Process for Spark Job: {pid}")
 
-    with open(f"/mnt/data/{APP_NAME}.csv" , 'w') as f:
+    f = open(f"/mnt/data/{APP_NAME}.csv" , 'w') 
+    writer = csv.writer(f)
+    title = ["CPU Util %", "Mem Usage"]
+    writer.writerow(title)
+    f.close()
+
+    while True:
+        if stop_monitoring:
+            break
+
+        data = [process.cpu_percent(), process.memory_info()[0]]
+
+        f = open(f"/mnt/data/{APP_NAME}.csv" , 'w')
         writer = csv.writer(f)
-        title = ["CPU Util %", "Mem Usage"]
-        writer.writerow(title)
+        writer.writerow(data)
+        f.close()
 
-        while True:
-            if stop_monitoring:
-                break
+        print(f"Logging monitoring data: {data} to file...")
 
-            data = [process.cpu_percent(), process.memory_info()[0]]
-            writer.writerow(data)
-
-            print("Logging data to file...")
-
-            time.sleep(30)
+        time.sleep(30)
 
 def run_spark():
     # Create Spark context
