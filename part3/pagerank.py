@@ -6,9 +6,16 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--iterations", type=int, default=10, help="The number of iterations to run PageRank algorithm.")
 parser.add_argument("--partitions", type=int, default=None, help="The number of partitions for the PageRank shuffling.")
-parser.add_argument("--persist", type=str, choices=["Memory_Only", "Disk_Only", "Memory_And_Disk"], 
+parser.add_argument("--out_partitions", type=int, default=None, help="The number of partitions for the PageRank shuffling.")
+parser.add_argument
+    (
+       "--persist", 
+       type=str, 
+       choices=["Memory_Only", "Disk_Only", "Memory_And_Disk"], 
        help="The persistence mode for PageRank algorithm."\
-       " Options are: Memory_Only, Disk_Only, Memory_And_Disk")
+       " Options are: Memory_Only, Disk_Only, Memory_And_Disk"
+    )
+
 args = parser.parse_args()
 
 APP_NAME = f"PageRank-WikiDataset-{args.iterations}-{args.partitions}-{args.persist}"
@@ -88,6 +95,10 @@ for _ in range(args.iterations):
     # Weight the contributions towards each node and assign new ranks
     # RDD schema: (destinationNode, newRank)
     ranks = contributionsRDD.mapValues(lambda x: 0.15 + 0.85*x)
+
+# If output partitions are configured, partition again
+if args.out_partitions:
+    ranks = ranks.coalesce(args.out_partitions)
 
 # Write back RDD to HDFS
 ranks.\
