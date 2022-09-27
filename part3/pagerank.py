@@ -56,7 +56,7 @@ def get_statistics(input_rdd):
 def monitor(pid):
     global stop_monitoring
 
-    process = psuitl.Process(pid)
+    process = psutil.Process(pid)
 
     print("Starting Monitoring Process for Spark Job")
 
