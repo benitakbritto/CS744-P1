@@ -60,12 +60,12 @@ print(f"Number of partitions in neighbours RDD: {neighbours.getNumPartitions()}"
 if args.persist:
     print(f"Persisting neighbours RDD with {args.persist} mode")
     if args.persist == "Disk_Only":
-        neighbours = neighbours.cache()
+        neighbours = neighbours.cache(storageLevel=StorageLevel.DISK_ONLY)
     elif args.persist == "Memory_Only":
-        neighbours = neighbours.cache()
+        neighbours = neighbours.persist(storageLevel=StorageLevel.MEMORY_ONLY)
     else:
         # Default to memory and disk
-        neighbours = neighbours.persist(StorageLevel.MEMORY_AND_DISK)
+        neighbours = neighbours.persist(storageLevel=StorageLevel.MEMORY_AND_DISK)
 
 # Create the rank RDD -> (key, rank)
 ranks = neighbours.mapValues(lambda x: 1.0)
