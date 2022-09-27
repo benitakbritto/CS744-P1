@@ -58,7 +58,7 @@ def monitor(pid):
 
     process = psutil.Process(pid)
 
-    print("Starting Monitoring Process for Spark Job")
+    print(f"Starting Monitoring Process for Spark Job: {pid}")
 
     with open(f"/mnt/data/{APP_NAME}.csv" , 'w') as f:
         writer = csv.writer(f)
@@ -69,7 +69,7 @@ def monitor(pid):
             if stop_monitoring:
                 break
 
-            data = [process.cpu_percent(), process.virtual_memory().used]
+            data = [process.cpu_percent(), process.memory_info()[0]]
             writer.writerow(data)
 
             print("Logging data to file...")
