@@ -9,7 +9,6 @@ the large dataset.
 
 from pyspark.sql import SparkSession
 from pyspark import StorageLevel
-from multiprocessing import Process
 from operator import add
 import argparse
 
@@ -36,6 +35,7 @@ parser.add_argument(
 parser.add_argument(
     "--persist", 
     type=str, 
+    default=None,
     choices=["Memory_Only", "Disk_Only", "Memory_And_Disk"], 
     help="The persistence mode for PageRank algorithm."\
     " Options are: Memory_Only, Disk_Only, Memory_And_Disk"
@@ -96,7 +96,7 @@ def run_spark():
     if args.persist:
         print(f"Persisting neighbours RDD with {args.persist} mode")
         if args.persist == "Disk_Only":
-            neighbours = neighbours.cache(storageLevel=StorageLevel.DISK_ONLY)
+            neighbours = neighbours.persist(storageLevel=StorageLevel.DISK_ONLY)
         elif args.persist == "Memory_Only":
             neighbours = neighbours.persist(storageLevel=StorageLevel.MEMORY_ONLY)
         else:
