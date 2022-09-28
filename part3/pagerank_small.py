@@ -1,7 +1,14 @@
+'''
+@file: pagerank_small.py
+
+This file includes the PageRank algorithm for
+the small dataset. 
+
+@creator: Benita, Devansh, Hemal
+'''
 from pyspark.sql import SparkSession
 from pyspark import StorageLevel
 from operator import add
-
 
 app_name = "PageRank-BerkStanDataset"
 
@@ -47,7 +54,6 @@ for _ in range(num_iterations):
     # Weight the contributions towards each node and assign new ranks
     # RDD schema: (destinationNode, newRank)
     ranks = contributionsRDD.mapValues(lambda x: 0.15 + 0.85*x)
-
 
 # Write back RDD to HDFS
 ranks.\

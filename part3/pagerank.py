@@ -1,9 +1,18 @@
+'''
+@file: pagerank.py
+
+This file includes the PageRank algorithm for
+the large dataset. 
+
+@creator: Benita, Devansh, Hemal
+'''
+
 from pyspark.sql import SparkSession
 from pyspark import StorageLevel
 from operator import add
 import argparse
 
-
+# Parsing command line args
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--iterations", 
@@ -50,10 +59,14 @@ def get_statistics(input_rdd):
 
 
 def run_spark():
+    """
+    Runs the page rank algorithm.
+    """
     # Create Spark context
     spark = SparkSession.builder.appName(APP_NAME).getOrCreate()
 
     spark.sparkContext.setLogLevel("ERROR")
+    
     # Load RDD into Spark
     rdd = spark.\
         sparkContext.\

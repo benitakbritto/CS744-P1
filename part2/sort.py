@@ -1,3 +1,11 @@
+'''
+@file: sort.py
+
+This file includes the sorting algorithm.
+
+@creator: Benita, Devansh, Hemal
+'''
+
 from pyspark.sql import SparkSession
 import argparse
 
