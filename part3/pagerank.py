@@ -96,7 +96,7 @@ def run_spark():
     if args.persist:
         print(f"Persisting neighbours RDD with {args.persist} mode")
         if args.persist == "Disk_Only":
-            neighbours = neighbours.cache(storageLevel=StorageLevel.DISK_ONLY)
+            neighbours = neighbours.persist(storageLevel=StorageLevel.DISK_ONLY)
         elif args.persist == "Memory_Only":
             neighbours = neighbours.persist(storageLevel=StorageLevel.MEMORY_ONLY)
         else:
