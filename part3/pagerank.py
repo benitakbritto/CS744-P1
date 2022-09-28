@@ -1,6 +1,5 @@
 from pyspark.sql import SparkSession
 from pyspark import StorageLevel
-from multiprocessing import Process
 from operator import add
 import argparse
 
@@ -27,6 +26,7 @@ parser.add_argument(
 parser.add_argument(
     "--persist", 
     type=str, 
+    default=None,
     choices=["Memory_Only", "Disk_Only", "Memory_And_Disk"], 
     help="The persistence mode for PageRank algorithm."\
     " Options are: Memory_Only, Disk_Only, Memory_And_Disk"
